@@ -2046,8 +2046,11 @@ void DcTestRunJob::TickMonitoring(uint32 dt)
                 DcTestRunRecord::BossKill kill;
                 kill.t = _totalMs / 1000;
                 kill.via = "mask";
+                // Bosses only: an objective sharing the bit (the Iron Clad Door
+                // on Mr. Smite's 3) sorts first by the objective-before-boss
+                // tie-break, and would otherwise take the boss's kill.
                 for (BossRef const& ref : _roster)
-                    if (ref.encounterIndex == bit)
+                    if (ref.isBoss && ref.encounterIndex == bit)
                     {
                         kill.entry = ref.entry;
                         kill.name = ref.name;
